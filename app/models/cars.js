@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         get() {
           const rawValue = this.getDataValue("image");
-          return rawValue ? "http://localhost:8000" + rawValue.substring(1) : null;
+          return rawValue ? "https://challange-7-tim-3.herokuapp.com/" + rawValue.substring(1) : null;
         },
       },
       rent: DataTypes.INTEGER,
