@@ -1,7 +1,7 @@
 const axios = require("axios");
 const jwt = require("jsonwebtoken");
 const { users } = require("../../../models");
-const { SECRET_KEY } = process.env;
+const { JWT_SECRET_KEY = "Rahasia" } = process.env;
 
 function createToken(user) {
   const payload = {
@@ -10,14 +10,16 @@ function createToken(user) {
     email: user.email,
   };
 
-  return jwt.sign(payload, SECRET_KEY);
+  return jwt.sign(payload, JWT_SECRET_KEY);
 }
 
 async function handleGoogleLoginOrRegister(req, res) {
   const { access_token } = req.body;
 
   try {
-    const response = await axios.get(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${access_token}`);
+    const response = await axios.get(
+      `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${access_token}`
+    );
     const { email, name } = response.data;
 
     let user = await users.findOne({ where: { email } });
